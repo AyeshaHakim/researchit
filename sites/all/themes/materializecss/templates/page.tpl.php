@@ -1,299 +1,261 @@
 <?php
-/**
- * @file
- * Materialize theme implementation to display a single Drupal page.
- *
- * The doctype, html, head and body tags are not in this template. Instead they
- * can be found in the html.tpl.php template in this directory.
- *
- * Available variables:
- *
- * General utility variables:
- * - $base_path: The base URL path of the Drupal installation. At the very
- *   least, this will always default to /.
- * - $directory: The directory the template is located in, e.g. modules/system
- *   or themes/bartik.
- * - $is_front: TRUE if the current page is the front page.
- * - $logged_in: TRUE if the user is registered and signed in.
- * - $is_admin: TRUE if the user has permission to access administration pages.
- *
- * Site identity:
- * - $front_page: The URL of the front page. Use this instead of $base_path,
- *   when linking to the front page. This includes the language domain or
- *   prefix.
- * - $logo: The path to the logo image, as defined in theme configuration.
- * - $site_name: The name of the site, empty when display has been disabled
- *   in theme settings.
- * - $site_slogan: The slogan of the site, empty when display has been disabled
- *   in theme settings.
- *
- * Navigation:
- * - $main_menu (array): An array containing the Main menu links for the
- *   site, if they have been configured.
- * - $secondary_menu (array): An array containing the Secondary menu links for
- *   the site, if they have been configured.
- * - $breadcrumb: The breadcrumb trail for the current page.
- *
- * Page content (in order of occurrence in the default page.tpl.php):
- * - $title_prefix (array): An array containing additional output populated by
- *   modules, intended to be displayed in front of the main title tag that
- *   appears in the template.
- * - $title: The page title, for use in the actual HTML content.
- * - $title_suffix (array): An array containing additional output populated by
- *   modules, intended to be displayed after the main title tag that appears in
- *   the template.
- * - $messages: HTML for status and error messages. Should be displayed
- *   prominently.
- * - $tabs (array): Tabs linking to any sub-pages beneath the current page
- *   (e.g., the view and edit tabs when displaying a node).
- * - $action_links (array): Actions local to the page, such as 'Add menu' on the
- *   menu administration interface.
- * - $feed_icons: A string of all feed icons for the current page.
- * - $node: The node object, if there is an automatically-loaded node
- *   associated with the page, and the node ID is the second argument
- *   in the page's path (e.g. node/12345 and node/12345/revisions, but not
- *   comment/reply/12345).
- *
- * Regions:
- * - $page['help']: Dynamic help text, mostly for admin pages.
- * - $page['highlighted']: Items for the highlighted content region.
- * - $page['content']: The main content of the current page.
- * - $page['sidebar_first']: Items for the first sidebar.
- * - $page['sidebar_second']: Items for the second sidebar.
- * - $page['header']: Items for the header region.
- * - $page['footer']: Items for the footer region.
- *
- * @see bootstrap_preprocess_page()
- * @see template_preprocess()
- * @see template_preprocess_page()
- * @see bootstrap_process_page()
- * @see template_process()
- * @see html.tpl.php
- *
- * @ingroup themeable
- */
- if (user_is_logged_in()) {
-   global $user;
-   $text = 'Logged in as ' . $user->name;
-   $href = '/projects';
-   $class = array('username', 'logged_in');
- } else {
-   $text = 'Login';
-   $href = '/Shibboleth.sso/Login';
-   $class = array('username', 'not_logged_in');
- }
- $primary_nav[1000] = array('#theme' => 'menu_link__main_menu', '#title'=>$text, '#href'=>$href, '#below' => '', '#attributes' => array('class'=>$class));
- $primary_nav[1001] = array('#theme' => 'menu_link__main_menu', '#title'=>'Search', '#href'=>'search', '#below' => '', '#attributes' => array('class' => 'search_button'));
+$name = '';
+$email = '';
+$pictureUrl = 'https://projects.nesi.org.nz/sites/default/files/nesi_avatar.png';
+$projects = array();
+
+if (user_is_logged_in()) {
+    global $user;
+    $projects = researchit_user_get_projects();
+    $userData = $user->data['projectdb_info'];
+
+    if($userData && $userData->fullName)
+    {
+        $name = $userData->fullName;
+    }
+
+    if($userData && $userData->email)
+    {
+        $email = $userData->email;
+    }
+
+    if($userData && $userData->pictureUrl)
+    {
+        $pictureUrl = $userData->pictureUrl;
+    }
+}
 ?>
-<div id="page">
-  <nav class="main-nav" id="nav" role="navigation">
-    <a href="#" data-activates="slide-out" class="button-collapse show-on-large" style='margin-left:15px'><i class="mdi-navigation-menu"></i></a>
-    <div class="nav-wrapper container">
-      <?php if ($logo): ?>
-        <a class="brand-logo" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
-          <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+
+<nav class="top-nav bg-light-grey" id="nav">
+    <ul id='slide-out' class='side-nav'>
+        <li><div class="userView">
+                <img class="background" src="/sites/default/files/abstract-background.jpg">
+                <?php echo "<a href='/'><img src='{$pictureUrl}' class='circle'></a>"; ?>
+                <?php echo "<a href='/'><span class='white-text name'>$name</span></a>" ?>
+                <?php echo "<a href='/'><span class='white-text email'>$email</span></a>" ?>
+            </div></li>
+        <li class="bold"><a href="/" class="waves-effect waves-teal"><i class="material-icons">home</i>Home</a></li>
+        <li class="bold"><a href="/projects" class="waves-effect waves-teal"><i class="material-icons">library_books</i>Projects</a></li>
+        <li class="bold"><a href="/#category_accordion" class="waves-effect waves-teal"><i class="material-icons">settings</i>Services</a></li>
+        <li class="bold"><a href="/#education" class="waves-effect waves-teal"><i class="material-icons">school</i>Education</a></li>
+        <li><div class="divider"></div></li>
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li class="bold">
+                    <a class="collapsible-header waves-effect waves-teal">My Projects<i class="material-icons right" style="margin-right: 5px;">arrow_drop_down</i></a>
+                    <div class="collapsible-body" style="">
+                        <ul>
+                            <?php
+                                if (!empty($projects)) {
+                                    foreach ($projects as $i => $p) {
+                                        $pName = $p->name;
+
+                                        if (strlen($pName) > 30)
+                                        {
+                                            $pName = substr($pName, 0, 30) . '...';
+                                        }
+
+                                        echo "<li><a href='/projects/{$p->projectCode}'>{$pName}</a></li>";
+                                    }
+                                }
+                            ?>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="nav-wrapper">
+        <a href="#" data-activates="slide-out" class="button-collapse brand-logo show-on-large"><i class="material-icons" style="font-size: 24px;">menu</i></a>
+        <a href="#" class="nav-left brand-logo">The Research Hub</a>
+
+        <a class="waves-effect waves-circle btn-floating nav-user-btn white right dropdown-button" data-activates='user-details' data-beloworigin="true" data-constrainwidth="false">
+            <?php echo "<img src='{$pictureUrl}' class='circle'>"; ?>
         </a>
-        <div style="float:left; position:absolute; display: inline-block; margin-left: 180px; font-size: 1.1rem;">The Centre for eResearch</div>
-      <?php endif; ?>
-      <?php if (!empty($primary_nav)): ?>
-        <div class="right">
-          <?php print render($primary_nav); ?>
-        </div>
-      <?php endif; ?>
+
+        <ul id='user-details' class='dropdown-content collection' style="width: 300px;"> 
+            <?php
+                if (user_is_logged_in()) {
+                    echo "<li class='collection-item avatar'><img src='{$pictureUrl}' class='circle'><span class='title'>$name</span></li>";
+                }
+                else
+                {
+                    echo "<li class='collection-item avatar'><img src='{$pictureUrl}' class='circle'/><span class='title'>Not logged in</span></li><li class='collection-item' href='Shibboleth.sso/Login'>Login</li>";
+                }
+            ?>
+         </ul>
     </div>
-  </nav>
-  <?php if (!empty($page['header'])): ?>
+</nav>
+
+<nav class="secondary-header bg-white">
+    <div class="nav-wrapper">
+        <img class="uni-logo" src="/sites/default/files/logo.png">
+        <ul id="nav-mobile" class="nav-container hide-on-med-and-down">
+            <li><a class='nav-link' href='/#lifecycle'>Research Lifecycle</a></li>
+            <li><a class='nav-link' href='/#category_accordion'>Service Types</a></li>
+            <li><a class='nav-link' href='/#education'>Education</a></li>
+            <li><a class='nav-link' href='/#guides'>Guides</a></li>
+            <li><a class='nav-link' href='/#policies'>Policies</a></li>
+        </ul>
+    </div>
+</nav>
+
+<?php if (!empty($page['header'])): ?>
     <div class="top">
-      <?php print render($page['header']); ?>
+        <?php print render($page['header']); ?>
     </div>
-  <?php endif; ?><!-- /.header  -->
+<?php endif; ?>
 
-  <div class="row searchBox">
-    <?php print drupal_render(drupal_get_form('search_block_form')); ?>
-  </div>
+<div class="row searchBox">
+    <?php
+    $form = drupal_get_form('search_block_form');
+    print drupal_render($form); ?>
+</div>
 
-  <?php if (user_is_logged_in()): ?>
+<?php if (user_is_logged_in()): ?>
     <input type='hidden' id='researchers' value='<?php
-      $json = json_encode($user->data['researchers']);
-      $json = str_replace("'", ' ', $json);
-      echo $json;
+    $json = json_encode($user->data['researchers']);
+    $json = str_replace("'", ' ', $json);
+    echo $json;
     ?>'/>
 
     <div id="create_project" class="modal">
-      <div class="modal-content">
-        <h4>Create a new project</h4>
-        <div class="row">
-          <form class="col s12" method="POST" action="#">
+        <div class="modal-content">
+            <h4>Create a new project</h4>
             <div class="row">
-              <ul class="collection">
-                <li class="collection-item avatar existing-collaborator">
-                  <img src="<?php if (!empty($user->data['projectdb_info']->pictureUrl)) {
-                    echo $user->data['projectdb_info']->pictureUrl;
-                  } else if (!empty($user->data['ldap_attributes']['thumbnailPhoto'])) {
-                    echo 'data:image/png;base64,' . $user->data['ldap_attributes']['thumbnailPhoto'];
-                  }
-                  ?>" alt="" class="circle">
-                  <span class="title"><?php echo $user->data['ldap_attributes']['displayName'] ?></span>
-                  <p style="font-weight:300">Project Owner</p>
-                </li>
-              </ul>
-              <div class="input-field col s12">
-                <input placeholder="Project Title" id="projectName" type="text" name="projectName" class="validate" required />
-                <label for="projectName">Project title</label>
-              </div>
-              <div class="input-field col s12">
-                <textarea id="projectDescription" name="projectDescription" class="materialize-textarea" required></textarea>
-                <label for="projectDescription">Project description</label>
-              </div>
-              <div class="input-field col s12">
-                <select id='scienceStudy' name="scienceStudy" required>
-                  <?php
-                    foreach ($user->data['science_domains'] as $d => $studies) {
-                      echo "<optgroup label='$d'>";
-                      foreach ($studies as $s) {
-                        $selected = '';
-                        if (!empty($user->data['ldap_attributes']['department']) && $s == $user->data['ldap_attributes']['department']) $selected = 'selected';
-                        echo "<option value='$s' $selected>$s</option>";
-                      }
-                      echo "</optgroup>";
-                    }
-                  ?>
-                </select>
-                <label for='scienceStudy'>Field of science</label>
-              </div>
-              <?php if (!empty($user->data['projectdb_info']->institutionalRoleId) && $user->data['projectdb_info']->institutionalRoleId != 1): ?>
-                <div class="input-field col s12">
-                  <input type='hidden' id='supervisor-id' name='supervisor-id' required/>
-                  <input placeholder="Supervisor" id="supervisor" name="supervisor" type="text" class="validate" autocomplete="off" required/>
-                  <label for="supervisor">Supervisor's name</label>
-                </div>
-              <?php endif; ?>
-              <div class="input-field col s12">
-                <input type="date" class="datepicker" id="startDate" name="startDate" required/>
-                <label for="startDate">First day</label>
-              </div>
-              <div class="input-field col s12">
-                <input type="date" class="datepicker" id="endDate" name="endDate" required/>
-                <label for="endDate">Last day</label>
-              </div>
-              Collaborators for this project:
-              <div class="input-field col s12">
-                <input placeholder="Collaborator" id="collaborator" type="text" class="validate" autocomplete="off" />
-                <label for="collaborator">Name</label>
-              </div>
-              <div class="col s12 right">
-                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-                  <i class="material-icons right">send</i>
-                </button>
-              </div>
+                <form class="col s12" method="POST" action="#">
+                    <div class="row">
+                        <ul class="collection">
+                            <li class="collection-item avatar existing-collaborator">
+                                <img src="<?php if (!empty($user->data['projectdb_info']->pictureUrl)) {
+                                    echo $user->data['projectdb_info']->pictureUrl;
+                                } else if (!empty($user->data['ldap_attributes']['thumbnailPhoto'])) {
+                                    echo 'data:image/png;base64,' . $user->data['ldap_attributes']['thumbnailPhoto'];
+                                }
+                                ?>" alt="" class="circle">
+                                <span class="title"><?php echo $user->data['ldap_attributes']['displayName'] ?></span>
+                                <p style="font-weight:300">Project Owner</p>
+                            </li>
+                        </ul>
+                        <div class="input-field col s12">
+                            <input placeholder="Project Title" id="projectName" type="text" name="projectName"
+                                   class="validate" required/>
+                            <label for="projectName">Project title</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <textarea id="projectDescription" name="projectDescription" class="materialize-textarea"
+                                      required></textarea>
+                            <label for="projectDescription">Project description</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <select id='scienceStudy' name="scienceStudy" required>
+                                <?php
+                                foreach ($user->data['science_domains'] as $d => $studies) {
+                                    echo "<optgroup label='$d'>";
+                                    foreach ($studies as $s) {
+                                        $selected = '';
+                                        if (!empty($user->data['ldap_attributes']['department']) && $s == $user->data['ldap_attributes']['department']) $selected = 'selected';
+                                        echo "<option value='$s' $selected>$s</option>";
+                                    }
+                                    echo "</optgroup>";
+                                }
+                                ?>
+                            </select>
+                            <label for='scienceStudy'>Field of science</label>
+                        </div>
+                        <?php if (!empty($user->data['projectdb_info']->institutionalRoleId) && $user->data['projectdb_info']->institutionalRoleId != 1): ?>
+                            <div class="input-field col s12">
+                                <input type='hidden' id='supervisor-id' name='supervisor-id' required/>
+                                <input placeholder="Supervisor" id="supervisor" name="supervisor" type="text"
+                                       class="validate" autocomplete="off" required/>
+                                <label for="supervisor">Supervisor's name</label>
+                            </div>
+                        <?php endif; ?>
+                        <div class="input-field col s12">
+                            <input type="date" class="datepicker" id="startDate" name="startDate" required/>
+                            <label for="startDate">First day</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input type="date" class="datepicker" id="endDate" name="endDate" required/>
+                            <label for="endDate">Last day</label>
+                        </div>
+                        Collaborators for this project:
+                        <div class="input-field col s12">
+                            <input placeholder="Collaborator" id="collaborator" type="text" class="validate"
+                                   autocomplete="off"/>
+                            <label for="collaborator">Name</label>
+                        </div>
+                        <div class="col s12 right">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div> <!-- row -->
+                </form>
             </div> <!-- row -->
-          </form>
-        </div> <!-- row -->
-      </div> <!-- modal-content -->
+        </div> <!-- modal-content -->
     </div> <!-- modal-->
 
-  <?php endif; ?>
+<?php endif; ?>
 
-  <div class="row page grid container">
-      <!--<a href="#" data-activates="sidebar" class="button-collapse show-on-large" style="margin-left: 15px;"><i class="mdi-navigation-menu"></i></a>-->
-      <ul id='slide-out' class='side-nav'>
-
-        <div style="height: 75px; width:100%; background-color: #01457C">
-
-        </div>
-
-        <!-- Menu Bar Content-->
-        <?php if (user_is_logged_in()): ?>
-          <!-- When User is Signed in-->
-          <div class='row'>
-            <?php
-
-              echo "<div class='collection'>";
-              echo "<li class='collection-header'><h5>Manage Projects</h5></li>";
-              echo "<a href='/projects/' class='collection-item avatar' style='min-height: 100px'>
-                      <i class='material-icons circle' style='background-color: #ffb300 !important'>dashboard</i>
-                      <span class='title' style='color: #ffb300; font-weight:500'>Open Project Dashboard</span>
-                      <p style='font-weight:300; color:black'>View and manage all your research projects</p>
-                    </a>";
-              echo "<a href='#create_project' class='collection-item avatar waves-effect waves-light modal-trigger' style='min-height: 100px'>
-                      <i class='material-icons circle' style='background-color: #ffb300 !important'>add</i>
-                      <span class='title' style='color: #ffb300; font-weight:500'>Create New Project</span>
-                      <p style='font-weight:300; color:black'>Create project in order to apply for research services</p>
-                    </a>";
-
-              echo "<li class='collection-header'><h5>My Projects</h5></li>";
-              $projects = researchit_user_get_projects();
-              if (!empty($projects)) {
-                foreach ($projects as $i => $p) {
-                  $desc = truncate_utf8($p->description, 100, TRUE, TRUE);
-                  $color = get_colour_for_status($p->statusName);
-                  echo "<a href='/projects/{$p->projectCode}' class='collection-item avatar' style='min-height: 100px'>
-                          <i class='material-icons circle' style='background-color: $color !important'>extension</i>
-                          <span class='title' style='color: black; font-weight:500'>{$p->name}</span>
-                          <p style='font-weight:300; color:black'>{$p->projectCode} </br>
-                            <span style='font-style: italic;'>$desc</span>
-                          </p>
-                        </a>";
-                }
-              }
-              echo "</div>";
-            ?>
-          </div>
-
-        <?php else: ?>
-          <!-- When User is not signed in-->
-
-          You're not logged in. If you were, you'd be able to see your projects here.
+<div class="row page grid">
+    <section class="<?php if (!empty($main_grid)) print $main_grid; ?> main" role="main" style="padding: 0;">
+        <?php if (!empty($page['highlighted'])): ?>
+            <div class="highlighted"><?php print render($page['highlight']); ?></div>
         <?php endif; ?>
-      </ul>
 
-    <?php if (!empty($page['sidebar_first'])): ?>
-      <aside class="<?php print $sidebar_left; ?> sidebar-first" role="complementary">
-        <?php print render($page['sidebar_first']); ?>
-      </aside>  <!-- /#sidebar-first -->
-    <?php endif; ?>
+        <?php print render($secondary_navigation); ?>
 
-    <section class="<?php if (!empty($main_grid)) print $main_grid; ?> main container" role="main">
-      <?php if (!empty($page['highlighted'])): ?>
-        <div class="highlighted"><?php print render($page['highlight']); ?></div>
-      <?php endif; ?>
+        <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>
+        <a id="main-content"></a>
+        <?php print render($title_prefix); ?>
+        <?php print render($title_suffix); ?>
+        <?php print $messages; ?>
+        <?php if (!empty($tabs['#primary'])): ?>
+            <?php print render($tabs_primary); ?>
+        <?php endif; ?>
 
-      <?php print render($secondary_navigation); ?>
-
-      <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>
-      <a id="main-content"></a>
-      <?php print render($title_prefix); ?>
-      <?php print render($title_suffix); ?>
-      <?php print $messages; ?>
-      <?php if (!empty($tabs['#primary'])): ?>
-        <?php print render($tabs_primary); ?>
-      <?php endif; ?>
-
-      <?php if (!empty($page['help'])): ?>
-        <?php print render($page['help']); ?>
-      <?php endif; ?>
-      <?php if (!empty($action_links)): ?>
-        <div class="action-links"><i class="mdi-action-note-add small"></i><?php print render($action_links); ?></div>
-      <?php endif; ?>
-      <?php print render($tabs_secondary); ?>
-      <?php if(drupal_is_front_page()) {
-              unset($page['content']['system_main']['default_message']);
-            }
-            print render($page['content']); ?>
+        <?php if (!empty($page['help'])): ?>
+            <?php print render($page['help']); ?>
+        <?php endif; ?>
+        <?php if (!empty($action_links)): ?>
+            <div class="action-links"><i class="mdi-action-note-add small"></i><?php print render($action_links); ?>
+            </div>
+        <?php endif; ?>
+        <?php print render($tabs_secondary); ?>
+        <?php if (drupal_is_front_page()) {
+            unset($page['content']['system_main']['default_message']);
+        }
+        print render($page['content']); ?>
     </section>
+</div>
 
-    <?php if (!empty($page['sidebar_second'])): ?>
-      <aside class="<?php print $sidebar_right; ?> sidebar-last" role="complementary">
-        <?php print render($page['sidebar_second']); ?>
-      </aside>  <!-- /#sidebar-second -->
-    <?php endif; ?>
-  </div> <!-- /main  -->
 
-  <div class="divider"></div>
-  <footer class="page-footer">
+<footer class="page-footer bg-dark-grey" style="padding: 0;margin: 0;">
     <div class="container">
-      <?php print render($page['footer']); ?>
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Explore</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">About the Centre for eResearch</a></li>
+                </ul>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Help & Support</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="http://www.eresearch.auckland.ac.nz/en/centre-for-eresearch/contact-us.html">Contact us</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">AskAuckland</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Donate to the Centre for eResearch</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Provide feedback</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
-  </footer>
 
-</div> <!-- /#page -->
+    <div class="footer-copyright bg-darker-grey">
+        <div class="container">
+            © 2016 The Centre for eResearch
+        </div>
+    </div>
+</footer>

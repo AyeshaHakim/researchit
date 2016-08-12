@@ -2,24 +2,17 @@
 /* line 2, ../sass/style.scss */
 
 
-footer.page-footer {
-  background-color: #01457C;
-  height: 200px;
-  position: relative;
-  z-index: 1000;
-}
-
 .page {
   min-height: 800px;
   position: relative;
   width: 100%;
 }
 
-@media only screen and (max-width : 1800px) {
-  .page.container.side-nav-out {
-    padding-left: 280px;
-  }
-}
+/*@media only screen and (max-width : 1800px) {*/
+  /*.page.container.side-nav-out {*/
+    /*padding-left: 280px;*/
+  /*}*/
+/*}*/
 
 .card .collection {
 	border: none;
@@ -124,75 +117,67 @@ a {
 }
 
 
-div.col > i.large.circle {
-  font-size: 4em;
-  padding: 15px;
-}
+/*div.col > i.large.circle {*/
+  /*font-size: 4em;*/
+  /*padding: 15px;*/
+/*}*/
 
-.breadcrumb {
-  color: black;
-  font-size: 14px;
-}
+/*.breadcrumb {*/
+  /*color: black;*/
+  /*font-size: 14px;*/
+/*}*/
 
-.breadcrumb:before {
-  display: none;
-}
+/*.breadcrumb:before {*/
+  /*display: none;*/
+/*}*/
 
-nav .brand-logo {
-  float: left;
-}
+/*nav .brand-logo {*/
+  /*float: left;*/
+/*}*/
 
-.brand-logo img {
-  margin-top: 7px;
-  max-height: 55px; /* 77px; */
-}
+/*.brand-logo img {*/
+  /*margin-top: 7px;*/
+  /*max-height: 55px; !* 77px; *!*/
+/*}*/
 
-.main-nav {
-  background-color:#01457C;
-  height: 75px; /*100px;*/
-  z-index: 750;
-  position: relative;
-  box-shadow: none;
-}
+/*.main-nav {*/
+  /*background-color:#01457C;*/
+  /*height: 75px; !*100px;*!*/
+  /*z-index: 750;*/
+  /*position: relative;*/
+  /*box-shadow: none;*/
+/*}*/
 
-nav div.right {
-  height: 75px; /*100px;*/
-  margin-left: 380px;
-}
+/*nav div.right {*/
+  /*height: 64px; !*100px;*!*/
+  /*margin-left: 380px;*/
+/*}*/
 
-nav .hide-on-med-and-down ul li, nav .hide-on-med-and-down ul li a, nav .hide-on-med-and-down ul li a i.mdi-navigation-arrow-drop-down {
-  height: 50px;
-  line-height: 50px;
-}
+/*nav .hide-on-med-and-down ul li, nav .hide-on-med-and-down ul li a, nav .hide-on-med-and-down ul li a i.mdi-navigation-arrow-drop-down {*/
+  /*height: 50px;*/
+  /*line-height: 50px;*/
+/*}*/
 
 nav ul a {
   font-size: 1.1rem;
 }
 
-#sidebar {
-  position: fixed;
-  background: white;
-  padding: 10px;
-  top: 0;
-  left: 0;
-  width: 14%;
-  height: 100%;
-  padding-top: 120px;
-  overflow-x: hidden;
-  z-index: 1;
-}
+/*#sidebar {*/
+  /*position: fixed;*/
+  /*background: white;*/
+  /*padding: 10px;*/
+  /*top: 0;*/
+  /*left: 0;*/
+  /*width: 14%;*/
+  /*height: 100%;*/
+  /*padding-top: 120px;*/
+  /*overflow-x: hidden;*/
+  /*z-index: 1;*/
+/*}*/
 
-#slide-out {
-  z-index: 500;
-}
-
-#sidenav-overlay, .drag-target {
-  display: none;
-}
-
-#create_project {
-  height: 70%;
-}
+/*#create_project {*/
+  /*height: 70%;*/
+/*}*/
 
 .ui-autocomplete {
   z-index: 1010;
@@ -439,4 +424,110 @@ a.anchor {
   vertical-align:top;
   padding:0%;
   }
+}
+
+.bg-dark-grey
+{
+    background-color: #373a3c !important;
+}
+
+.bg-darker-grey
+{
+    background-color: #262626 !important;
+}
+
+.bg-light-grey
+{
+    background-color: #f2f2f2 !important;
+}
+
+.font
+{
+    font-family: NationalBold, sans-serif;
+    margin-right: 1rem;
+    padding: 1rem 1.5rem;
+    transition: all .8s;
+}
+
+.text-navy-blue
+{
+    color: #00467f!important;
+}
+
+.bg-white
+{
+    background-color: #ffffff;
+}
+
+.nav-left
+{
+    position:absolute !important;
+    left: 300px !important;
+}
+
+.nav-container
+{
+    position:absolute !important;
+    left: 300px !important;
+}
+
+.brand-logo
+{
+    color: #00467f !important;
+    margin-left: 15px;
+    display: inline-block;
+    font-size: 18px !important;
+    font-weight: bold;
+}
+
+.nav-link
+{
+    color: #00467f !important;
+}
+
+.secondary-header
+{
+    height: 90px;
+    box-shadow: none;
+    line-height: 90px;
+}
+
+.uni-logo
+{
+    position: absolute;
+    width: 144px;
+    margin-top: -27px;
+    left: 122px;
+}
+
+.nav-user-btn
+{
+    top: 16px;
+    margin-right: 30px;
+    width: 32px;
+    height: 32px;
+}
+
+.nav-user-btn img {
+    width: 32px;
+    height: 32px;
+}
+
+ul.side-nav ul.collapsible-accordion a.collapsible-header {
+    padding: 0 30px;
+    font-weight: bold;
+}
+
+ul.side-nav ul.collapsible-accordion .collapsible-body li a {
+    font-weight: 400;
+    padding: 0 37.5px 0 45px;
+    text-overflow: ellipsis !important;
+}
+
+ul.side-nav li a {
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 44px;
+    height: 44px;
+    padding: 0 30px;
 }

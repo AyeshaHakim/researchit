@@ -16,17 +16,17 @@
  echo "<div id='hero' style='background: url($uri);background-size: cover; width: 100%;height: 500px; position: absolute;left: 0;z-index: -10;'></div>";
 ?>
 
-<div id="links" class="card-panel uoa-brand-shape" style="position: absolute; padding-top: 0px; padding-left: 0px; width:500px; margin-top: 35px; margin-left: 52.5%">
-  <h5 class="center-align">The Research Hub</h5>
-
-  <a href="#lifecycle" class="waves-effect waves-light btn center-align"><i class="material-icons left">cached</i>Browse by Research Lifecycle</a>
-
-  <a href='#category_accordion' class="waves-effect waves-light btn center-align"><i class="material-icons left">view_module</i>Browse by Service Type</a>
-
-  <a href='#education' class="waves-effect waves-light btn center-align"><i class="material-icons left">school</i>Education and Training Opportunities</a>
-
-  <a href='#guides' class="waves-effect waves-light btn center-align"><i class="material-icons left">import_contacts</i>Consult Guides</a>
-</div>
+<!--<div class="card-panel uoa-brand-shape" style="position: absolute; padding-top: 0px; padding-botom: 15px; padding-left: 0px; width:350px; margin-top: 35px; margin-left: 60%">-->
+<!--  <h5 class="center-align" style="color: white; margin-bottom: 15px; font-weight: 600">The Research Hub</h5>-->
+<!---->
+<!--  <a href="#lifecycle" class="waves-effect waves-light btn center-align" style="background-color: #0080a7; margin-bottom: 5px; min-width: 350px;"><i class="material-icons left">cached</i>Browse by Research Lifecycle</a>-->
+<!---->
+<!--  <a href='#category_accordion' class="waves-effect waves-light btn center-align" style="background-color: #0080a7; margin-bottom: 5px; min-width: 350px;"><i class="material-icons left">view_module</i>Browse by Service Type</a>-->
+<!---->
+<!--  <a href='#education' class="waves-effect waves-light btn center-align" style="background-color: #0080a7; margin-bottom: 5px; min-width: 350px;"><i class="material-icons left">school</i>Education and Training Opportunities</a>-->
+<!---->
+<!--  <a href='#guides' class="waves-effect waves-light btn center-align" style="background-color: #0080a7; margin-bottom: 5px; min-width: 350px;"><i class="material-icons left">import_contacts</i>Consult Guides</a>-->
+<!--</div>-->
 
 <?php
   echo "<div id='spacer' style='padding-top: 20%; min-height: 400px'></div><a id='lifecycle' class='anchor'></a>";
